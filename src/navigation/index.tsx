@@ -9,7 +9,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
  * ? Local & Shared Imports
  */
 import { SCREENS } from "@shared-constants";
-import { DarkTheme, LightTheme, palette } from "@theme/themes";
+import { LightTheme, palette } from "@theme/themes";
 // ? Screens
 // import HomeScreen from "@screens/home/HomeScreen";
 import SearchScreen from "@screens/search/SearchScreen";
@@ -18,6 +18,7 @@ import ProfileScreen from "@screens/profile/ProfileScreen";
 import NotificationScreen from "@screens/notification/NotificationScreen";
 import Login from "@screens/authstack/login/Login";
 import Register from "@screens/authstack/register/Register";
+import SplashScreen from "@screens/authstack/splash/Splash";
 
 // ? If you want to use stack or tab or both
 const Tab = createBottomTabNavigator();
@@ -96,10 +97,13 @@ const Navigation = () => {
       onReady={() => {
         isReadyRef.current = true;
       }}
-      theme={isDarkMode ? DarkTheme : LightTheme}
+      // theme={isDarkMode ? DarkTheme : LightTheme}
+      theme={LightTheme}
     >
       <Stack.Navigator screenOptions={{ headerShown: false }}>
+        <Stack.Screen name={SCREENS.SPLASHSCREEN} component={SplashScreen} />
         <Stack.Screen name={SCREENS.LOGIN} component={Login} />
+
         <Stack.Screen name={SCREENS.REGISTER} component={Register} />
 
         {/* <Stack.Screen name={SCREENS.LOGIN} component={renderTabNavigation} /> */}

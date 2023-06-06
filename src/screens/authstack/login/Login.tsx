@@ -14,13 +14,13 @@ import { SCREENS } from '@shared-constants'
 
 
 const Login: React.FC = () => {
-    const handleSubmit = () => {
-        NavigationService.push(SCREENS.REGISTER);
+    const handleSubmit = (values:any) => {
+console.log(values, 'login')
+        // NavigationService.push(SCREENS.REGISTER);
     }
     return (
-        <SafeAreaView>
+        <SafeAreaView style={authStyles.safeAreaView}>
             <ScrollView>
-                {/* <ImageBackground source={bg} style={{height:responsiveHeight(100)}}> */}
                 <View style={authStyles?.auth}>
                     <View style={authStyles.logoView}>
                         <FastImage
@@ -41,7 +41,6 @@ const Login: React.FC = () => {
                         </Pressable>
                     </View>
                 </View>
-                {/* </ImageBackground> */}
             </ScrollView>
         </SafeAreaView>
     )

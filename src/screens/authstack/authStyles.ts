@@ -8,7 +8,13 @@ export default StyleSheet.create({
         flexGrow: 1,
         paddingHorizontal: responsiveScreenWidth(6)
     },
-
+    safeAreaView:{backgroundColor:"#ffffff", flex:1},
+    splash: {
+        backgroundColor: themes?.colors?.white,
+        justifyContent:'center',
+        alignItems:'center',
+        height:responsiveHeight(100)
+    },
     header: {
         alignItems: 'center',
         paddingVertical: 50
@@ -31,8 +37,8 @@ export default StyleSheet.create({
         color: themes.colors.fontColor,
         marginBottom: 10
     },
-    auth:{
-        paddingHorizontal:responsiveScreenWidth(4),
+    auth: {
+        paddingHorizontal: responsiveScreenWidth(4),
     },
 
 
@@ -69,7 +75,7 @@ export default StyleSheet.create({
         // backgroundColor: 'red'
     },
 
- 
+
 
     codeInputHighlightStyle: {
         // borderColor: themes.colors.secondary,
@@ -112,11 +118,12 @@ export default StyleSheet.create({
     },
     logo: {
         height: responsiveHeight(35),
-        width: '100%'
+        width: responsiveScreenWidth(55)
     },
     logoView: {
         paddingTop: responsiveScreenHeight(6),
-        paddingBottom: responsiveScreenHeight(1.5)
+        paddingBottom: responsiveScreenHeight(1.5),
+        alignItems:'center'
     },
     bottomlink: {
         flexDirection: 'row',
@@ -131,7 +138,7 @@ export default StyleSheet.create({
     },
     bottomlinkTextNav: {
         color: themes.colors?.black,
-        fontSize: themes?.fontSize?.extraVSmall,
+        fontSize: themes?.fontSize?.small,
         fontFamily: themes?.font?.boldItalic,
         textDecorationLine: 'underline'
     },

@@ -1,11 +1,10 @@
-import { ImageBackground, SafeAreaView, View } from 'react-native'
+import { SafeAreaView, View } from 'react-native'
 import React from 'react'
 import { Form } from './Form'
 import authStyles from '../authStyles'
 import FastImage from 'react-native-fast-image'
 import { imgs } from 'assets/imgs'
 import { ScrollView } from 'react-native'
-import { Pressable } from 'react-native'
 import { Text } from 'react-native'
 import { SCREENS } from '@shared-constants'
 import * as NavigationService from "react-navigation-helpers";
@@ -13,12 +12,12 @@ import RNBounceable from '@freakycoder/react-native-bounceable'
 
 
 const Register: React.FC = () => {
-    const handleSubmit = () => {
-        console.log('LOGIN')
+    const handleSubmit = (value:any) => {
+        console.log('register', value)
     }
     return (
-        <SafeAreaView>
-            <ScrollView>
+        <SafeAreaView style={authStyles.safeAreaView}>
+            <ScrollView >
                 <View style={authStyles?.auth}>
                     <View style={authStyles.logoView}>
                         <FastImage

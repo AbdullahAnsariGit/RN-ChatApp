@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { Pressable, Text, TextInput, View } from 'react-native';
+import { Text, TextInput, View } from 'react-native';
 import { Formik, FormikProps } from 'formik';
 // FormikValues
 import { ValidationSchema } from './Validation';
@@ -12,6 +12,7 @@ import LinearGradient from 'react-native-linear-gradient'
 import RNBounceable from '@freakycoder/react-native-bounceable';
 
 interface FormValues {
+    name?:string;
     email?: string;
     password?: string;
 }
@@ -21,19 +22,22 @@ interface FormProps {
 }
 
 export const Form: React.FC<FormProps> = ({ submit }: FormProps): React.ReactElement => {
+    const [isFocusedName, setIsFocusedName] = useState(false);
     const [isFocusedEmail, setIsFocusedEmail] = useState(false);
     const [isFocusedPass, setIsFocusedPass] = useState(false);
     const [secure, setSecure] = useState(false);
 
     const form = useRef<FormikProps<FormValues>>(null);
+    const name = useRef<TextInput>(null);
     const password = useRef<TextInput>(null);
     const email = useRef<TextInput>(null);
 
-    const toggleSecure = (): void => {
+    const toggleSecure = (): void => {setIsFocusedName
         setSecure(!secure);
     };
 
     const initialValues: FormValues = {
+        name:'',
         email: '',
         password: '',
     };
@@ -57,12 +61,12 @@ export const Form: React.FC<FormProps> = ({ submit }: FormProps): React.ReactEle
 
                             <InputWrapper
                                 handleFocus={() => {
-                                    setIsFocusedEmail(true);
+                                    setIsFocusedName(true);
                                 }}
                                 handleBlur={() => {
-                                    setIsFocusedEmail(false);
+                                    setIsFocusedName(false);
                                 }}
-                                ref={email}
+                                ref={name}
                                 inputLabel='Name'
                                 placeholder='John Mick'
                                 placeholderTextColor={themes?.colors?.grey}
@@ -70,12 +74,12 @@ export const Form: React.FC<FormProps> = ({ submit }: FormProps): React.ReactEle
                                 multiLine={false}
                                 numberOfLines={1}
                                 icon={icons?.User}
-                                iconColor={isFocusedEmail ? themes?.colors?.darkPink : themes?.colors?.grey}
+                                iconColor={isFocusedName ? themes?.colors?.darkPink : themes?.colors?.grey}
                                 outlineColor={themes?.colors?.grey}
                                 activeOutlineColor={themes.colors.lightBlue}
-                                value={formikProps.values.email}
-                                onChangeText={formikProps.handleChange('email')}
-                                error={formikProps.errors?.email}
+                                value={formikProps.values.name}
+                                onChangeText={formikProps.handleChange('name')}
+                                error={formikProps.errors?.name}
                             />
                             <InputWrapper
                                 handleFocus={() => {

@@ -1,5 +1,6 @@
 // ? Screens
 export const SCREENS = {
+  SPLASHSCREEN:"SplashScreen",
   LOGIN: 'Login',
   REGISTER: 'Register',
   HOME: "Home",
