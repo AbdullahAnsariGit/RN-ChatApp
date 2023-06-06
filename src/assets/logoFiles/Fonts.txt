@@ -1,0 +1,9 @@
+Fonts used in this design:
+
+Font: Rubik
+Author: Hubert and Fischer,Meir Sadan,Cyreal
+Url: https://fonts.google.com/specimen/Rubik
+
+Font: Viga
+Author: Fontstage
+Url: https://fonts.google.com/specimen/Viga

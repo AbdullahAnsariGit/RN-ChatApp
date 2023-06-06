@@ -16,7 +16,7 @@ const ProfileScreen: React.FC<ProfileScreenProps> = () => {
 
   return (
     <View style={styles.container}>
-      <Text h1 color={colors.text}>
+      <Text h1 color={colors.text} >
         Profile
       </Text>
     </View>
