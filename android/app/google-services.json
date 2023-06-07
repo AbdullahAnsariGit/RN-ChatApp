@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "449892166020",
+    "project_id": "thetalking-b7056",
+    "storage_bucket": "thetalking-b7056.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:449892166020:android:ca6afd95e6d5069e0d55d1",
+        "android_client_info": {
+          "package_name": "com.rntypescriptboilerplate"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "449892166020-pvc3apghu7cv2u93k57u1pfm65qqfubs.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC3gYFY35zl9zFSIwckczOQe6ylxlBWKwM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "449892166020-pvc3apghu7cv2u93k57u1pfm65qqfubs.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
