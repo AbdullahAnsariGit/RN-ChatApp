@@ -103,11 +103,8 @@ const Navigation = () => {
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         <Stack.Screen name={SCREENS.SPLASHSCREEN} component={SplashScreen} />
         <Stack.Screen name={SCREENS.LOGIN} component={Login} />
-
         <Stack.Screen name={SCREENS.REGISTER} component={Register} />
-
         {/* <Stack.Screen name={SCREENS.LOGIN} component={renderTabNavigation} /> */}
-
         <Stack.Screen name={SCREENS.DETAIL}>
           {(props) => <DetailScreen {...props} />}
         </Stack.Screen>

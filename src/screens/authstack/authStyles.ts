@@ -13,7 +13,7 @@ export default StyleSheet.create({
         backgroundColor: themes?.colors?.white,
         justifyContent:'center',
         alignItems:'center',
-        height:responsiveHeight(100)
+        height:responsiveHeight(110)
     },
     header: {
         alignItems: 'center',
