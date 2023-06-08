@@ -8,4 +8,8 @@ export const SCREENS = {
   NOTIFICATION: "Notification",
   PROFILE: "Profile",
   DETAIL: "Detail",
+  CHATLIST:"Chatlist",
+  CHATSCREEN:"Chatscreen",
+
+
 };

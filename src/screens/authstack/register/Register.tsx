@@ -1,5 +1,5 @@
-import { SafeAreaView, View, Alert } from 'react-native'
 import React, { useEffect } from 'react'
+import { SafeAreaView, View, Alert } from 'react-native'
 import { Form } from './Form'
 import authStyles from '../authStyles'
 import FastImage from 'react-native-fast-image'

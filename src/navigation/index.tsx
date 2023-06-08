@@ -19,6 +19,8 @@ import NotificationScreen from "@screens/notification/NotificationScreen";
 import Login from "@screens/authstack/login/Login";
 import Register from "@screens/authstack/register/Register";
 import SplashScreen from "@screens/authstack/splash/Splash";
+import Chatlist from "@screens/appstack/chat/chatlist/Chatlist";
+import Chatscreen from "@screens/appstack/chat/chatscreen/Chatscreen";
 
 // ? If you want to use stack or tab or both
 const Tab = createBottomTabNavigator();
@@ -101,13 +103,21 @@ const Navigation = () => {
       theme={LightTheme}
     >
       <Stack.Navigator screenOptions={{ headerShown: false }}>
-        <Stack.Screen name={SCREENS.SPLASHSCREEN} component={SplashScreen} />
-        <Stack.Screen name={SCREENS.LOGIN} component={Login} />
-        <Stack.Screen name={SCREENS.REGISTER} component={Register} />
-        {/* <Stack.Screen name={SCREENS.LOGIN} component={renderTabNavigation} /> */}
-        <Stack.Screen name={SCREENS.DETAIL}>
-          {(props) => <DetailScreen {...props} />}
-        </Stack.Screen>
+        {false ?
+          <>
+            <Stack.Screen name={SCREENS.SPLASHSCREEN} component={SplashScreen} />
+            <Stack.Screen name={SCREENS.LOGIN} component={Login} />
+            <Stack.Screen name={SCREENS.REGISTER} component={Register} />
+            {/* <Stack.Screen name={SCREENS.LOGIN} component={renderTabNavigation} /> */}
+            <Stack.Screen name={SCREENS.DETAIL}>
+              {(props) => <DetailScreen {...props} />}
+            </Stack.Screen>
+          </>
+          : <>
+            <Stack.Screen name={SCREENS.CHATLIST} component={Chatlist} />
+            <Stack.Screen name={SCREENS.CHATSCREEN} component={Chatscreen} />
+
+          </>}
       </Stack.Navigator>
     </NavigationContainer>
   );

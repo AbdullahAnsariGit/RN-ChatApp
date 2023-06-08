@@ -1,4 +1,5 @@
 import "react-native-gesture-handler";
+import { SafeAreaView } from 'react-native-safe-area-context';
 import React from "react";
 import { StatusBar, useColorScheme, LogBox } from "react-native";
 import SplashScreen from "react-native-splash-screen";
@@ -28,7 +29,10 @@ const App = () => {
 
   return (
     <>
-      <Navigation />
+      <SafeAreaView style={{flex:1, backgroundColor:'#ffffff'}}>
+        <Navigation />
+      </SafeAreaView>
+
     </>
   );
 };
