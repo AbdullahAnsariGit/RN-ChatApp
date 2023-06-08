@@ -6,6 +6,7 @@
     "@freakycoder/react-native-bounceable": "1.0.3",
     "@freakycoder/react-native-custom-text": "^0.1.2",
     "@freakycoder/react-native-helpers": "2.0.0",
+    "@react-native-async-storage/async-storage": "^1.18.2",
     "@react-native-firebase/app": "^18.0.0",
     "@react-native-firebase/firestore": "^18.0.0",
     "@react-native-masked-view/masked-view": "^0.2.7",

@@ -1,18 +1,14 @@
 import React, { useEffect } from 'react'
-import { SafeAreaView, View } from 'react-native'
+import { View, ScrollView, Pressable, Text } from "react-native"
 import { Form } from './Form'
 import authStyles from '../authStyles'
 import FastImage from 'react-native-fast-image'
 import { imgs } from 'assets/imgs'
-import { ScrollView } from 'react-native'
-import { Pressable } from 'react-native'
-import { Text } from 'react-native'
 import * as NavigationService from "react-navigation-helpers";
 import { SCREENS } from '@shared-constants'
 import firestore from '@react-native-firebase/firestore';
 import Animated, { useSharedValue, useAnimatedStyle, withSpring, withTiming } from 'react-native-reanimated'
-
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 const Login: React.FC = () => {
@@ -37,9 +33,20 @@ const Login: React.FC = () => {
             .where("email", '==', values.email)
             .get()
             .then(res => {
+                console.log("🚀 ~ file: Login.tsx:40 ~ handleSubmit ~ res:", res?._docs[0]?._data)
                 console.log("res", res?._docs[0]?._data.password)
                 if (res?._docs[0]?._data.password == values.password) {
-                    NavigationService.push(SCREENS.REGISTER);
+                    AsyncStorage.setItem(
+                        'USERID',
+                        JSON.stringify(res?._docs[0]?._data),
+                        () => {
+                            AsyncStorage.getItem('USERID', (err: any, result: any) => {
+                                console.log("🚀 ~ file: Login.tsx:44 ~ AsyncStorage.getItem ~ err:", err)
+                                console.log("🚀 ~ file: Login.tsx:44 ~ AsyncStorage.getItem ~ result:", result)
+                            });
+                        },
+                    );
+
                 }
             }).catch((err) => {
                 console.log('user not found', err)
@@ -48,30 +55,28 @@ const Login: React.FC = () => {
     }
 
     return (
-        <SafeAreaView style={authStyles.safeAreaView}>
-            <ScrollView>
-                <View style={authStyles?.auth}>
-                    <Animated.View style={[authStyles.logoView, animatedStyle]}>
-                        <FastImage
-                            source={imgs?.Logo}
-                            style={authStyles.logo}
-                            resizeMode="contain"
-                        />
-                    </Animated.View>
-                    <Form
-                        submit={handleSubmit}
-                    // handleForgot={handleForgot}
-                    // onLoginPress={() => navigation.navigate('login')}
+        <ScrollView>
+            <View style={authStyles?.auth}>
+                <Animated.View style={[authStyles.logoView, animatedStyle]}>
+                    <FastImage
+                        source={imgs?.Logo}
+                        style={authStyles.logo}
+                        resizeMode="contain"
                     />
-                    <View style={authStyles.bottomlink}>
-                        <Text style={authStyles.bottomlinkText}>Don't have an account? </Text>
-                        <Pressable onPress={() => NavigationService.push(SCREENS.REGISTER)}>
-                            <Text style={authStyles.bottomlinkTextNav}>Register Now</Text>
-                        </Pressable>
-                    </View>
+                </Animated.View>
+                <Form
+                    submit={handleSubmit}
+                // handleForgot={handleForgot}
+                // onLoginPress={() => navigation.navigate('login')}
+                />
+                <View style={authStyles.bottomlink}>
+                    <Text style={authStyles.bottomlinkText}>Don't have an account? </Text>
+                    <Pressable onPress={() => NavigationService.push(SCREENS.REGISTER)}>
+                        <Text style={authStyles.bottomlinkTextNav}>Register Now</Text>
+                    </Pressable>
                 </View>
-            </ScrollView>
-        </SafeAreaView>
+            </View>
+        </ScrollView>
     )
 }
 

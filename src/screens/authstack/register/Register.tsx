@@ -42,9 +42,9 @@ const Register: React.FC = () => {
                 email: value?.email,
                 password: value?.password,
                 userId: userId
-            }).then(() => {
-                console.log('User added!');
-                Alert.alert('User added uccessfully')
+            }).then(res => {
+                console.log(res, "User added!");
+                Alert.alert('User added successfully')
             }).catch(err => {
                 console.log(err, 'error-register')
                 Alert.alert('User added unsuccessfully')
@@ -52,30 +52,28 @@ const Register: React.FC = () => {
     }
 
     return (
-        <SafeAreaView style={authStyles.safeAreaView}>
-            <ScrollView >
-                <View style={authStyles?.auth}>
-                    <Animated.View style={[authStyles.logoView, animatedStyle]}>
-                        <FastImage
-                            source={imgs?.Logo}
-                            style={authStyles.logo}
-                            resizeMode="contain"
-                        />
-                    </Animated.View>
-                    <Form
-                        submit={handleSubmit}
-                    // handleForgot={handleForgot}
-                    // onLoginPress={() => navigation.navigate('login')}
+        <ScrollView >
+            <View style={authStyles?.auth}>
+                <Animated.View style={[authStyles.logoView, animatedStyle]}>
+                    <FastImage
+                        source={imgs?.Logo}
+                        style={authStyles.logo}
+                        resizeMode="contain"
                     />
-                    <View style={authStyles.bottomlink}>
-                        <Text style={authStyles.bottomlinkText}>Already have an account? </Text>
-                        <RNBounceable onPress={() => NavigationService.push(SCREENS.LOGIN)}>
-                            <Text style={authStyles.bottomlinkTextNav}>Login</Text>
-                        </RNBounceable>
-                    </View>
+                </Animated.View>
+                <Form
+                    submit={handleSubmit}
+                // handleForgot={handleForgot}
+                // onLoginPress={() => navigation.navigate('login')}
+                />
+                <View style={authStyles.bottomlink}>
+                    <Text style={authStyles.bottomlinkText}>Already have an account? </Text>
+                    <RNBounceable onPress={() => NavigationService.push(SCREENS.LOGIN)}>
+                        <Text style={authStyles.bottomlinkTextNav}>Login</Text>
+                    </RNBounceable>
                 </View>
-            </ScrollView>
-        </SafeAreaView>
+            </View>
+        </ScrollView>
     )
 }
 

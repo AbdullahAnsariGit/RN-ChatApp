@@ -28,13 +28,11 @@ const SplashScreen: React.FC = () => {
     }, []);
 
     return (
-        <SafeAreaView>
             <View style={authStyles?.splash}>
                 <Animated.View style={[authStyles.logoView, animationFunc]}>
                     <FastImage source={imgs?.Logo} style={authStyles.logo} resizeMode="contain" />
                 </Animated.View>
             </View>
-        </SafeAreaView>
     );
 };
 
