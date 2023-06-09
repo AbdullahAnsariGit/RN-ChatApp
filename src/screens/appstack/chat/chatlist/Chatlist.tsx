@@ -47,6 +47,25 @@ const Chatlist: React.FC = () => {
         }
     };
 
+    //more professional way
+    // const getUsers = async (): Promise<void> => {
+    //     try {
+    //         const storedUserId = await AsyncStorage.getItem('USERID');
+    //         if (storedUserId) {
+    //             const { userId, email }: User = JSON.parse(storedUserId);
+    //             const usersSnapshot = await firestore()
+    //                 .collection('Users')
+    //                 .where('email', '!=', email)
+    //                 .get();
+
+    //             const tempData: User[] = usersSnapshot.docs.map((doc) => doc.data());
+    //             setUsers(tempData);
+    //         }
+    //     } catch (error) {
+    //         console.log('Error retrieving USERID from AsyncStorage:', error);
+    //     }
+    // };
+
     return (
 
         <View >
