@@ -9,9 +9,10 @@ import { themes } from 'assets/theme'
 
 interface ChatlistWrapperProps {
     imgs?: any,
-    onPress?: any
+    onPress?: any,
+    name?:string
 }
-const ChatlistWrapper = ({ imgs, onPress }: ChatlistWrapperProps) => {
+const ChatlistWrapper = ({ imgs, onPress, name }: ChatlistWrapperProps) => {
     return (
         <RNBounceable
             onPress={onPress}
@@ -21,7 +22,7 @@ const ChatlistWrapper = ({ imgs, onPress }: ChatlistWrapperProps) => {
                 <FastImage source={imgs} style={styles.img} />
                 <View>
                     <Text style={styles?.postHeading}>
-                        Alex
+                       {name}
                     </Text>
                     <Text style={styles?.postDesp} numberOfLines={1} >
                         alex alex alex laex alexchudid alex alex

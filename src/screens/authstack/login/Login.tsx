@@ -9,6 +9,7 @@ import { SCREENS } from '@shared-constants'
 import firestore from '@react-native-firebase/firestore';
 import Animated, { useSharedValue, useAnimatedStyle, withSpring, withTiming } from 'react-native-reanimated'
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Restart from 'react-native-restart';
 
 
 const Login: React.FC = () => {
@@ -23,9 +24,15 @@ const Login: React.FC = () => {
         }
     })
 
-    useEffect(() => {
+    const handleRefresh = () => {
+        Restart.Restart();
+      };
+
+    React.useEffect(() => {
         initialIconVal.value = withTiming(1, { duration: 2000 }), withSpring(1);
+      
     }, []);
+
     const handleSubmit = (values: any) => {
         firestore()
             .collection('Users')
@@ -39,14 +46,7 @@ const Login: React.FC = () => {
                     AsyncStorage.setItem(
                         'USERID',
                         JSON.stringify(res?._docs[0]?._data),
-                        () => {
-                            AsyncStorage.getItem('USERID', (err: any, result: any) => {
-                                console.log("🚀 ~ file: Login.tsx:44 ~ AsyncStorage.getItem ~ err:", err)
-                                console.log("🚀 ~ file: Login.tsx:44 ~ AsyncStorage.getItem ~ result:", result)
-                            });
-                        },
                     );
-
                 }
             }).catch((err) => {
                 console.log('user not found', err)

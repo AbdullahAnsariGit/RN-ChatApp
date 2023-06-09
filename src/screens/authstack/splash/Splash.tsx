@@ -24,7 +24,7 @@ const SplashScreen: React.FC = () => {
         initialIconVal.value = withTiming(1, { duration: 2000 });
         setTimeout(() => {
             NavigationService.push(SCREENS.LOGIN);
-        }, 1500)
+        }, 1200)
     }, []);
 
     return (
