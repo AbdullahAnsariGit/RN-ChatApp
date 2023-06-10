@@ -40,7 +40,6 @@ const styles = StyleSheet.create({
         // width: responsiveWidth(100),
         flexDirection: 'row-reverse',
         marginTop: responsiveHeight(2),
-
     },
     avatar: {
         height: 40,

@@ -1,36 +1,90 @@
 import React from 'react';
-import { View, FlatList, Text, KeyboardAvoidingView, Platform, ScrollView } from 'react-native';
+import { View, FlatList, Text, KeyboardAvoidingView, Platform } from 'react-native';
 import appStyles from '@screens/appstack/appStyles';
 import { SenderchatWrapper } from '@shared-components/senderchat-wrapper/SenderchatWrapper';
-import { Message } from './Dummydata';
 import { RecieverchatWrapper } from '@shared-components/recieverchat-wrapper/RecieverchatWrapper';
 import FastImage from 'react-native-fast-image';
 import { icons } from 'assets/imgs';
 import RNBounceable from '@freakycoder/react-native-bounceable';
 import * as NavigationService from 'react-navigation-helpers';
 import ChatinputWrapper from '@shared-components/chatinput-wrapper/ChatinputWrapper';
+import { useRoute } from '@react-navigation/native';
+import firestore, { FirebaseFirestoreTypes } from '@react-native-firebase/firestore';
+
+interface RouteParams {
+  id: string;
+  data: {
+    userId: string;
+  };
+}
 
 const Chatscreen: React.FC = () => {
+  const route = useRoute();
+  const [allMessagesList, setAllMessagesList] = React.useState<any>([]);
+  const [msgg, setMsg] = React.useState<string>('');
+
+  // Fetch all messages on component mount
+  React.useEffect(() => {
+    const subscriber = firestore()
+      .collection('chats')
+      .doc((route?.params as RouteParams)?.id + (route.params as RouteParams)?.data?.userId)
+      .collection('messages')
+      .orderBy('createdAt', 'desc');
+
+    const unsubscribe = subscriber.onSnapshot((querySnapshot: FirebaseFirestoreTypes.QuerySnapshot) => {
+      const allMessages = querySnapshot.docs.map((item: FirebaseFirestoreTypes.QueryDocumentSnapshot) => {
+        return { ...item.data(), createdAt: item.data().createdAt };
+      });
+      setAllMessagesList(allMessages);
+    });
+
+    return () => unsubscribe();
+  }, []);
+
+  // Send messages from user1 to user2 and update the message list
+  const onSend = React.useCallback((message: string) => {
+    const myMsg = {
+      messages: message,
+      sendBy: (route?.params as RouteParams)?.id,
+      sendTo: (route?.params as RouteParams)?.data?.userId,
+      createdAt: new Date().toISOString(),
+    };
+
+    setAllMessagesList((prevMessages: any) => [myMsg, ...prevMessages]);
+
+    firestore()
+      .collection('chats')
+      .doc('' + (route?.params as RouteParams)?.id + (route.params as RouteParams)?.data?.userId)
+      .collection('messages')
+      .add(myMsg);
+
+    firestore()
+      .collection('chats')
+      .doc('' + (route?.params as RouteParams)?.data?.userId + (route.params as RouteParams)?.id)
+      .collection('messages')
+      .add(myMsg);
+  }, []);
+
+  // Render individual chat components
   const renderItem = ({ item }: any) => {
-    return <SenderchatWrapper msg={item?.msg} />;
+    if (item.sendBy === (route?.params as RouteParams)?.data?.userId) {
+      return <SenderchatWrapper msg={item?.messages} />;
+    } else if (item.sendTo === (route.params as RouteParams)?.data?.userId) {
+      return <RecieverchatWrapper msg={item?.messages} />;
+    }
+    return null;
   };
 
-  const renderItem1 = ({ item }: any) => {
-    return <RecieverchatWrapper msg={item?.msg} />;
-  };
-
+  // Extract a unique key for each item in the list
   const keyExtractor = (item: any) => item?.id?.toString() || '';
-  const keyExtractor1 = (item: any) => {
-    const id = item?.id?.toString() || `undefined_${Math.random()}`;
-    return `${id}_1`;
-  };
 
+  // Handle back navigation
   const handleBack = () => {
     NavigationService.pop();
   };
 
-  // Assign unique ids to the items in the Message array
-  const messagesWithIds = Message.map((item, index) => ({ ...item, id: index }));
+  // Reverse the message list to display in descending
+  const reversedMessages = [...allMessagesList].reverse();
 
   return (
     <KeyboardAvoidingView
@@ -45,23 +99,16 @@ const Chatscreen: React.FC = () => {
         <Text style={appStyles.headerText}>Messages</Text>
         <View style={appStyles.back1} />
       </View>
-      <ScrollView style={{ paddingHorizontal: 16, flex: 1 }}>
+      <View style={{ paddingHorizontal: 16, flex: 1,}}>
         <FlatList
           showsVerticalScrollIndicator={false}
-          scrollEnabled={false}
-          data={messagesWithIds}
+          scrollEnabled={true}
+          data={reversedMessages}
           renderItem={renderItem}
           keyExtractor={keyExtractor}
         />
-        <FlatList
-          showsVerticalScrollIndicator={false}
-          scrollEnabled={false}
-          data={messagesWithIds}
-          renderItem={renderItem1}
-          keyExtractor={keyExtractor1}
-        />
-      </ScrollView>
-      <ChatinputWrapper />
+      </View>
+      <ChatinputWrapper onChangeText={(msgg) => { setMsg(msgg) }} value={msgg ? "" : msgg} onPress={() => onSend(msgg)} />
     </KeyboardAvoidingView>
   );
 };

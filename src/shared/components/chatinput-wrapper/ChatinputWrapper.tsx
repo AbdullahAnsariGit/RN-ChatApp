@@ -10,20 +10,28 @@ import { responsiveHeight, responsiveWidth } from 'react-native-responsive-dimen
 import FastImage from 'react-native-fast-image'
 import { icons } from 'assets/imgs'
 import { themes } from 'assets/theme'
-const ChatinputWrapper = () => {
+import RNBounceable from '@freakycoder/react-native-bounceable'
+interface ChatinputWrapperProps {
+    value?: string;
+    onChangeText?: (text: string) => void;
+    onPress?: () => void;
+}
+const ChatinputWrapper = ({ value, onChangeText, onPress }: ChatinputWrapperProps) => {
     return (
         <View style={styles.maincontainer} >
-            <TouchableOpacity style={styles.attachment}>
-                <Image source={icons?.pin} style={styles.pin} resizeMode='contain'/>
+            <TouchableOpacity style={styles.attachment} >
+                <Image source={icons?.pin} style={styles.pin} resizeMode='contain' />
             </TouchableOpacity>
             <TextInput
                 placeholder='Write here...'
                 placeholderTextColor={themes?.colors?.grey}
                 style={styles.input}
+                onChangeText={onChangeText}
+                value={value}
             />
-            <TouchableOpacity style={styles.send}>
+            <RNBounceable style={styles.send} onPress={onPress}>
                 <FastImage source={icons?.send} style={styles.sndicon} />
-            </TouchableOpacity>
+            </RNBounceable>
         </View>
     )
 }
@@ -39,7 +47,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         borderTopRightRadius: 10,
         borderTopLeftRadius: 10,
-        paddingHorizontal:responsiveWidth(5)
+        paddingHorizontal: responsiveWidth(5)
     },
     attachment: {
         paddingRight: 8,
@@ -52,7 +60,7 @@ const styles = StyleSheet.create({
     pin: {
         height: responsiveWidth(5),
         width: responsiveWidth(5),
-        tintColor:themes?.colors?.lightBlue
+        tintColor: themes?.colors?.lightBlue
     },
     send: {
         backgroundColor: themes?.colors?.lightBlue,

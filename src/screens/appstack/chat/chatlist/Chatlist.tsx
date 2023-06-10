@@ -9,17 +9,15 @@ import * as NavigationService from "react-navigation-helpers";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import firestore from '@react-native-firebase/firestore';
 
-
-
+let id = '';
 const Chatlist: React.FC = () => {
     const [users, setUsers] = React.useState([]);
-
     React.useEffect(() => {
         getUsers()
     }, [users])
 
     const renderItem = ({ item }: any) => {
-        return <ChatlistWrapper imgs={item?.imgs} name={item?.name} onPress={() => handleChat()} />
+        return <ChatlistWrapper imgs={item?.imgs} name={item?.name} onPress={() => NavigationService.push(SCREENS.CHATSCREEN, { data: item, id: id })} />
     }
     const handleChat = () => {
         NavigationService.push(SCREENS.CHATSCREEN)
@@ -28,7 +26,7 @@ const Chatlist: React.FC = () => {
         try {
             const storedUserId = await AsyncStorage.getItem('USERID');
             if (storedUserId) {
-                const userId = JSON.parse(storedUserId).userId;
+                id = JSON.parse(storedUserId).userId;
                 const email = JSON.parse(storedUserId).email;
                 let tempData: any = [];
                 firestore().collection('Users').where('email', '!=', email).get().then((res) => {
