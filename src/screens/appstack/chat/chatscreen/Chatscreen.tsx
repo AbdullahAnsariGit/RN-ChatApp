@@ -15,6 +15,7 @@ interface RouteParams {
   id: string;
   data: {
     userId: string;
+    name: string;
   };
 }
 
@@ -41,6 +42,11 @@ const Chatscreen: React.FC = () => {
     return () => unsubscribe();
   }, []);
 
+  // Helper function to format the time
+  const formatTime = (timeString: any) => {
+    const date = new Date(timeString);
+    return date.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
+  };
   // Send messages from user1 to user2 and update the message list
   const onSend = React.useCallback((message: string) => {
     const myMsg = {
@@ -68,9 +74,11 @@ const Chatscreen: React.FC = () => {
   // Render individual chat components
   const renderItem = ({ item }: any) => {
     if (item.sendBy === (route?.params as RouteParams)?.data?.userId) {
-      return <SenderchatWrapper msg={item?.messages} />;
+      const formattedTime = formatTime(item.createdAt);
+      return <SenderchatWrapper msg={item?.messages} name={(route?.params as RouteParams)?.data?.name} time={formattedTime} />;
     } else if (item.sendTo === (route.params as RouteParams)?.data?.userId) {
-      return <RecieverchatWrapper msg={item?.messages} />;
+      const formattedTime2 = formatTime(item.createdAt);
+      return <RecieverchatWrapper msg={item?.messages} time={formattedTime2} />;
     }
     return null;
   };
@@ -85,6 +93,7 @@ const Chatscreen: React.FC = () => {
 
   // Reverse the message list to display in descending
   const reversedMessages = [...allMessagesList].reverse();
+  console.log("🚀 ~ file: Chatscreen.tsx:89 ~ reversedMessages:", reversedMessages)
 
   return (
     <KeyboardAvoidingView
@@ -96,10 +105,10 @@ const Chatscreen: React.FC = () => {
         <RNBounceable onPress={handleBack} style={{ padding: 4 }}>
           <FastImage source={icons?.Back} style={appStyles.back} />
         </RNBounceable>
-        <Text style={appStyles.headerText}>Messages</Text>
+        <Text style={appStyles.headerText}>{((route?.params as RouteParams)?.data?.name).toUpperCase()}</Text>
         <View style={appStyles.back1} />
       </View>
-      <View style={{ paddingHorizontal: 16, flex: 1,}}>
+      <View style={{ paddingHorizontal: 16, flex: 1, }}>
         <FlatList
           showsVerticalScrollIndicator={false}
           scrollEnabled={true}
@@ -108,7 +117,7 @@ const Chatscreen: React.FC = () => {
           keyExtractor={keyExtractor}
         />
       </View>
-      <ChatinputWrapper onChangeText={(msgg) => { setMsg(msgg) }} value={msgg ? "" : msgg} onPress={() => onSend(msgg)} />
+      <ChatinputWrapper onChangeText={(msgg) => { setMsg(msgg) }} value={msgg} onPress={() => onSend(msgg)} />
     </KeyboardAvoidingView>
   );
 };

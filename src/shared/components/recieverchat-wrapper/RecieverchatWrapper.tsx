@@ -6,10 +6,11 @@ import FastImage from 'react-native-fast-image'
 import { imgs } from 'assets/imgs'
 
 interface SenderchatWrapperProps {
-    msg?: string
+    msg?: string,
+    time?:any
 }
 
-export const RecieverchatWrapper = ({ msg }: SenderchatWrapperProps) => {
+export const RecieverchatWrapper = ({ msg, time}: SenderchatWrapperProps) => {
     return (
         <View style={styles.container}>
             <View style={styles.profile}>
@@ -28,7 +29,7 @@ export const RecieverchatWrapper = ({ msg }: SenderchatWrapperProps) => {
                         You
                     </Text>
                     <Text style={styles.postSq}>
-                        12:00 PM
+                       {time}
                     </Text>
                 </View>
             </View>
