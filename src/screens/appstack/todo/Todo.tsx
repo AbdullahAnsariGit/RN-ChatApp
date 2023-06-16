@@ -120,5 +120,5 @@ const styles = StyleSheet.create({
     sndicon: {
         height: responsiveWidth(5),
         width: responsiveWidth(5),
-    },
+    },  
 });

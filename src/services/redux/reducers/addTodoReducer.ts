@@ -18,6 +18,10 @@ export const addTodoReducer: Reducer<AppState, AnyAction> = (
     state = initialState,
     action
 ) => {
+
+    console.log('action,',action)
+    console.log('satte,',state)
+
     switch (action.type) {
         case 'ADD_TODO': {
             const { id, task } = action.payload;
@@ -26,11 +30,13 @@ export const addTodoReducer: Reducer<AppState, AnyAction> = (
                 todos: [...state.todos, { id, task }],
             };
         }
-        case 'DELETE_TODO': {
+        case 'TODO_DELETE': {
             const indexx = action?.index
+            const updateTodos = [...state.todos]
+            updateTodos.splice(indexx,1)
             return {
                 ...state,
-                todos: [state.todos.pop(indexx), ...state?.todos]
+                todos: updateTodos
             }
         }
         default:
