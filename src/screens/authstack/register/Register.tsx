@@ -10,7 +10,7 @@ import { SCREENS } from '@shared-constants'
 import * as NavigationService from "react-navigation-helpers";
 import RNBounceable from '@freakycoder/react-native-bounceable'
 import firestore from '@react-native-firebase/firestore';
-import uuid from 'react-native-uuid';
+import uuid from 'react-native-uuid';       
 import Animated, { useSharedValue, useAnimatedStyle, withSpring, withTiming } from 'react-native-reanimated'
 
 

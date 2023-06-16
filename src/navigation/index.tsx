@@ -17,6 +17,7 @@ import Register from "@screens/authstack/register/Register";
 import SplashScreen from "@screens/authstack/splash/Splash";
 import Chatlist from "@screens/appstack/chat/chatlist/Chatlist";
 import Chatscreen from "@screens/appstack/chat/chatscreen/Chatscreen";
+import BooksListApp from "@screens/appstack/todo/Todo";
 
 // ? If you want to use stack or tab or both
 const Stack = createStackNavigator();
@@ -52,7 +53,7 @@ const Navigation = () => {
       theme={LightTheme}
     > 
       <Stack.Navigator screenOptions={{ headerShown: false }}>
-        {token == null ? (
+        {!token == null ? (
           <>
             <Stack.Screen name={SCREENS.SPLASHSCREEN} component={SplashScreen} />
             <Stack.Screen name={SCREENS.LOGIN} component={Login} />
@@ -61,6 +62,7 @@ const Navigation = () => {
           </>
         ) : (
           <>
+            <Stack.Screen name={SCREENS.TODO} component={BooksListApp} />
             <Stack.Screen name={SCREENS.CHATLIST} component={Chatlist} />
             <Stack.Screen name={SCREENS.CHATSCREEN} component={Chatscreen} />
           </>
