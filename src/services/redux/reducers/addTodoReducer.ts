@@ -19,8 +19,8 @@ export const addTodoReducer: Reducer<AppState, AnyAction> = (
     action
 ) => {
 
-    console.log('action,',action)
-    console.log('satte,',state)
+    console.log('action,', action)
+    console.log('satte,', state)
 
     switch (action.type) {
         case 'ADD_TODO': {
@@ -33,10 +33,26 @@ export const addTodoReducer: Reducer<AppState, AnyAction> = (
         case 'TODO_DELETE': {
             const indexx = action?.index
             const updateTodos = [...state.todos]
-            updateTodos.splice(indexx,1)
+            updateTodos.splice(indexx, 1)
             return {
                 ...state,
                 todos: updateTodos
+            }
+        }
+        case 'TODO_UPDATE': {
+            var indexx = action?.index
+            console.log("🚀 ~ file: addTodoReducer.ts:44 ~ index:", indexx)
+            const updateTodo = [...state.todos]
+            const newUpdate = updateTodo.filter((val, index) => {
+                return index === indexx
+            })
+            console.log("🚀 ~ file: addTodoReducer.ts:47 ~ newUpdate:", newUpdate)
+            console.log("🚀 ~ file: addTodoReducer.ts:45 ~ updateTodo:", updateTodo)
+
+            return {
+                ...state,
+                todos: updateTodo,
+                newTodo:newUpdate
             }
         }
         default:

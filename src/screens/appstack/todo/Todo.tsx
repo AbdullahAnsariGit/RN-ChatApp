@@ -1,6 +1,7 @@
 import RNBounceable from '@freakycoder/react-native-bounceable';
 import { todoDelete } from '@services/redux/actions/deleteTodo';
 import { addTodo } from '@services/redux/actions/todo';
+import { updateTodo } from '@services/redux/actions/updateTodo';
 import { icons } from 'assets/imgs';
 import { themes } from 'assets/theme';
 import React, { useState } from 'react';
@@ -26,7 +27,11 @@ export default function BooksListApp() {
     // const [todos, setTodos] = useState<Todo[]>([]); // Initialize todos as an empty array
     const data = useSelector((state) => {
         const allTodosList = state?.todos
-        return allTodosList
+        const updateTodo = state?.newTodo
+        return {
+            allTodosList,
+            newListt:updateTodo[0]
+        }
     })
     console.log("🚀 ~ file: Todo.tsx:25 ~ data ~ data:", data)
 
@@ -44,8 +49,19 @@ export default function BooksListApp() {
 
     };
 
-    const handleDelete = (index:number) => {
-    dispatch(todoDelete(index))
+    const handleUpdateNew = (val) => {
+console.log('val', val)
+    }
+
+    const handleDelete = (index: number) => {
+        dispatch(todoDelete(index))
+    }
+
+
+    const handleUpdate = (index: number) => {
+        dispatch(updateTodo(index))
+    setTask(data?.newListt)
+        setTask(data?.newListt?.task)
     }
 
     return (
@@ -62,15 +78,23 @@ export default function BooksListApp() {
             <Button mode="contained" onPress={() => handleAddTodo(task)} style={styles.addButton}>
                 Add
             </Button>
+            <Button mode="contained" onPress={() => handleUpdateNew(data?.newListt)} style={styles.addButton}>
+                Update
+            </Button>
             <FlatList
-                data={data}
+                data={data?.allTodosList}
                 keyExtractor={(item, index) => index}
                 renderItem={({ item, index }) => {
-                    return <View style={{flexDirection:'row', justifyContent:'space-between', paddingHorizontal:15, paddingVertical:10, borderWidth:0.5, borderColor:'#000000'}}>
+                    return <View style={{ flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: 15, paddingVertical: 10, borderWidth: 0.5, borderColor: '#000000' }}>
                         <Text style={styles.list}>{item.task}</Text>
-                        <RNBounceable style={styles.send} onPress={()=> handleDelete(index) }>
-                            <FastImage source={icons?.Delete} style={styles.sndicon} />
-                        </RNBounceable>
+                        <View style={{ flexDirection: 'row', gap: 20 }}>
+                            <RNBounceable style={styles.send} onPress={() => handleDelete(index)}>
+                                <FastImage source={icons?.Delete} style={styles.sndicon} />
+                            </RNBounceable>
+                            <RNBounceable style={styles.send} onPress={() => handleUpdate(index)}>
+                                <FastImage source={icons?.Upload} style={styles.sndicon} />
+                            </RNBounceable>
+                        </View>
                     </View>;
                 }}
             />
@@ -120,5 +144,5 @@ const styles = StyleSheet.create({
     sndicon: {
         height: responsiveWidth(5),
         width: responsiveWidth(5),
-    },  
+    },
 });
