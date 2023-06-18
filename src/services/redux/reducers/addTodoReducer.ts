@@ -25,6 +25,7 @@ export const addTodoReducer: Reducer<AppState, AnyAction> = (
     switch (action.type) {
         case 'ADD_TODO': {
             const { id, task } = action.payload;
+            console.log("🚀 ~ file: addTodoReducer.ts:28 ~ id:", id)
             return {
                 ...state,
                 todos: [...state.todos, { id, task }],
@@ -40,19 +41,24 @@ export const addTodoReducer: Reducer<AppState, AnyAction> = (
             }
         }
         case 'TODO_UPDATE': {
-            var indexx = action?.index
-            console.log("🚀 ~ file: addTodoReducer.ts:44 ~ index:", indexx)
             const updateTodo = [...state.todos]
-            const newUpdate = updateTodo.filter((val, index) => {
-                return index === indexx
-            })
-            console.log("🚀 ~ file: addTodoReducer.ts:47 ~ newUpdate:", newUpdate)
-            console.log("🚀 ~ file: addTodoReducer.ts:45 ~ updateTodo:", updateTodo)
+            console.log("🚀 ~ file: addTodoReducer.ts:47 ~ upTodagggggggggtedo:", action?.payload?.id)
+
+            const newUpdate = updateTodo.map((val) => {
+                if (val?.id === action?.payload?.id) {
+                    return {
+                        ...val,
+                        task: action?.payload?.task
+                    };
+                }
+                return val;
+            });
+            console.log("🚀 ~ file: addTodoReducer.ts:55 ~ newUpdate ~ newUpdate:", newUpdate)
+
 
             return {
                 ...state,
-                todos: updateTodo,
-                newTodo:newUpdate
+                todos: newUpdate,
             }
         }
         default:

@@ -1,4 +1,7 @@
-export const updateTodo = (index: number) => ({
+export const updateTodo = (val: string, id?:string) => ({
     type: 'TODO_UPDATE',
-    index: index
+    payload:{
+        task:val,
+        id:id
+    }
 })

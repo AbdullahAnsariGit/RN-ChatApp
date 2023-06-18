@@ -11,23 +11,20 @@ import { Button, TextInput } from 'react-native-paper';
 import { responsiveWidth } from 'react-native-responsive-dimensions';
 import { useDispatch, useSelector } from 'react-redux';
 
-// interface Todo {
-//     id: string;
-//     task: string;
-// }
-// interface NewTodo {
-//     id: string;
-//     task: string;
-// }
+
 
 export default function BooksListApp() {
 
     const dispatch = useDispatch()
     const [task, setTask] = useState<string>(''); // Initialize task as an empty string
-    // const [todos, setTodos] = useState<Todo[]>([]); // Initialize todos as an empty array
+    const [id, setId] = useState<string>(''); // Initialize task as an empty string
+    console.log("🚀 ~ file: Todo.tsx:28 ~ BooksListApp ~ id:", id)
+
+    console.log("🚀 ~ file: Todo.tsx:27 ~ BooksListApp ~ task:", task)
     const data = useSelector((state) => {
         const allTodosList = state?.todos
         const updateTodo = state?.newTodo
+        console.log("🚀 ~ file: Todo.tsx:31 ~ data ~ updateTodo:", updateTodo)
         return {
             allTodosList,
             newListt:updateTodo[0]
@@ -36,21 +33,18 @@ export default function BooksListApp() {
     console.log("🚀 ~ file: Todo.tsx:25 ~ data ~ data:", data)
 
     const handleAddTodo = (tasks: any) => {
-        // static way
-        if (task.trim()) {
-            // const newTodo: NewTodo = {
-            //     id: Math.random().toString().substring(3, 4),
-            //     task: task.trim(),
-            // };
-            // setTodos(prevTodos => [...prevTodos, newTodo])
+        if (tasks.trim()) {
             dispatch(addTodo(tasks))
             setTask('')
         }
 
     };
 
-    const handleUpdateNew = (val) => {
-console.log('val', val)
+    const handleUpdateNew = (task:any, id:number) => {
+console.log('val', task, id)
+dispatch(updateTodo(task,id))
+setTask('')
+
     }
 
     const handleDelete = (index: number) => {
@@ -58,10 +52,12 @@ console.log('val', val)
     }
 
 
-    const handleUpdate = (index: number) => {
-        dispatch(updateTodo(index))
-    setTask(data?.newListt)
-        setTask(data?.newListt?.task)
+    const handleUpdate = (item:any) => {
+        console.log("🚀 ~ file: Todo.tsx:67 ~ handleUpdate ~ item:", item)
+        // dispatch(updateTodo(index))
+    setTask(item?.task)
+    setId(item?.id)
+        // setTask(data?.newListt?.task)
     }
 
     return (
@@ -78,7 +74,7 @@ console.log('val', val)
             <Button mode="contained" onPress={() => handleAddTodo(task)} style={styles.addButton}>
                 Add
             </Button>
-            <Button mode="contained" onPress={() => handleUpdateNew(data?.newListt)} style={styles.addButton}>
+            <Button mode="contained" onPress={() => handleUpdateNew(task, id)} style={styles.addButton}>
                 Update
             </Button>
             <FlatList
@@ -86,12 +82,12 @@ console.log('val', val)
                 keyExtractor={(item, index) => index}
                 renderItem={({ item, index }) => {
                     return <View style={{ flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: 15, paddingVertical: 10, borderWidth: 0.5, borderColor: '#000000' }}>
-                        <Text style={styles.list}>{item.task}</Text>
+                        <Text numberOfLines={1} style={styles.list}>{item.task}</Text>
                         <View style={{ flexDirection: 'row', gap: 20 }}>
                             <RNBounceable style={styles.send} onPress={() => handleDelete(index)}>
                                 <FastImage source={icons?.Delete} style={styles.sndicon} />
                             </RNBounceable>
-                            <RNBounceable style={styles.send} onPress={() => handleUpdate(index)}>
+                            <RNBounceable style={styles.send} onPress={() => handleUpdate(item)}>
                                 <FastImage source={icons?.Upload} style={styles.sndicon} />
                             </RNBounceable>
                         </View>
@@ -125,6 +121,8 @@ const styles = StyleSheet.create({
         fontSize: 18,
         fontWeight: 'bold',
         textAlign: 'center',
+        width:'70%',
+        textAlign:'left'
     },
     input: {
         // height: 40,
