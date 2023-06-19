@@ -17,8 +17,7 @@ export default function BooksListApp() {
 
     const dispatch = useDispatch()
     const [task, setTask] = useState<string>(''); // Initialize task as an empty string
-    const [id, setId] = useState<string>(''); // Initialize task as an empty string
-    console.log("🚀 ~ file: Todo.tsx:28 ~ BooksListApp ~ id:", id)
+    const [idd, setId] = useState<string>(''); // Initialize task as an empty string
 
     console.log("🚀 ~ file: Todo.tsx:27 ~ BooksListApp ~ task:", task)
     const data = useSelector((state) => {
@@ -27,7 +26,7 @@ export default function BooksListApp() {
         console.log("🚀 ~ file: Todo.tsx:31 ~ data ~ updateTodo:", updateTodo)
         return {
             allTodosList,
-            newListt:updateTodo[0]
+            // newListt: updateTodo[0]
         }
     })
     console.log("🚀 ~ file: Todo.tsx:25 ~ data ~ data:", data)
@@ -40,10 +39,10 @@ export default function BooksListApp() {
 
     };
 
-    const handleUpdateNew = (task:any, id:number) => {
-console.log('val', task, id)
-dispatch(updateTodo(task,id))
-setTask('')
+    const handleUpdateNew = (task: any, idd: number) => {
+        console.log('val', task, idd)
+        dispatch(updateTodo(task, idd))
+        setTask('')
 
     }
 
@@ -52,11 +51,11 @@ setTask('')
     }
 
 
-    const handleUpdate = (item:any) => {
+    const handleUpdate = (item: any) => {
         console.log("🚀 ~ file: Todo.tsx:67 ~ handleUpdate ~ item:", item)
         // dispatch(updateTodo(index))
-    setTask(item?.task)
-    setId(item?.id)
+        setTask(item?.task)
+        setId(item?.id)
         // setTask(data?.newListt?.task)
     }
 
@@ -74,7 +73,7 @@ setTask('')
             <Button mode="contained" onPress={() => handleAddTodo(task)} style={styles.addButton}>
                 Add
             </Button>
-            <Button mode="contained" onPress={() => handleUpdateNew(task, id)} style={styles.addButton}>
+            <Button mode="contained" onPress={() => handleUpdateNew(task, idd)} style={styles.addButton}>
                 Update
             </Button>
             <FlatList
@@ -121,8 +120,9 @@ const styles = StyleSheet.create({
         fontSize: 18,
         fontWeight: 'bold',
         textAlign: 'center',
-        width:'70%',
-        textAlign:'left'
+        width: '70%',
+        textAlign: 'left',
+        color: '#000000'
     },
     input: {
         // height: 40,
