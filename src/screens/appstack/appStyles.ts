@@ -11,9 +11,9 @@ export default StyleSheet.create({
         height: responsiveHeight(6),
         backgroundColor: '#ffffff',
         justifyContent: 'space-between',
-        flexDirection:'row',
-        alignItems:'center',
-        paddingHorizontal:responsiveScreenWidth(4)
+        flexDirection: 'row',
+        alignItems: 'center',
+        paddingHorizontal: responsiveScreenWidth(4)
     },
     headerText: {
         textAlign: 'center',
@@ -21,7 +21,7 @@ export default StyleSheet.create({
         color: themes?.colors?.black,
         fontSize: themes?.fontSize?.medium
     },
-    headerText1:{
+    headerText1: {
         textAlign: 'center',
         // width:'100%',
         fontFamily: themes?.font?.bold,
@@ -31,12 +31,21 @@ export default StyleSheet.create({
     chatlistContainer: {
         height: responsiveHeight(94),
     },
-    back:{
-        height:responsiveFontSize(2.2),
-        width:responsiveFontSize(2.2),
+    back: {
+        height: responsiveFontSize(2.2),
+        width: responsiveFontSize(2.2),
     },
-    back1:{
-        height:responsiveFontSize(2.3),
-        width:responsiveFontSize(2.3),
+    back1: {
+        height: responsiveFontSize(2.3),
+        width: responsiveFontSize(2.3),
+    },
+    loaderContainer: {
+        backgroundColor: 'white',
+        position: 'absolute',
+        height: '100%',
+        width: '100%',
+        alignItems: 'center',
+        justifyContent: 'center',
+        zIndex:99
     }
 });

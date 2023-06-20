@@ -9,6 +9,7 @@ import * as NavigationService from 'react-navigation-helpers';
 import { useRoute } from '@react-navigation/native';
 import firestore, { FirebaseFirestoreTypes } from '@react-native-firebase/firestore';
 import { themes } from 'assets/theme';
+import LoadingWrapper from '@shared-components/loading-wrapper/loadingWrapper';
 
 interface RouteParams {
   id: string;
@@ -105,28 +106,30 @@ const Chatscreen: React.FC = () => {
   };
 
   return (
-    <KeyboardAvoidingView
-      style={{ flex: 1 }}
-      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-      keyboardVerticalOffset={Platform.OS === 'ios' ? 64 : 0}
-    >
-      <View style={appStyles.header}>
-        <RNBounceable onPress={handleBack} style={{ padding: 4 }}>
-          <FastImage source={icons?.Back} style={appStyles.back} />
-        </RNBounceable>
-        <Text style={appStyles.headerText}>{((route?.params as RouteParams)?.data?.name).toUpperCase()}</Text>
-        <View style={appStyles.back1} />
-      </View>
-      <GiftedChat
-      renderBubble={renderBubble}
-        ref={giftedChatRef}
-        messages={messages}
-        onSend={onSend}
-        user={{
-          _id: 1,
-        }}
-      />
-    </KeyboardAvoidingView>
+    <>
+      <KeyboardAvoidingView
+        style={{ flex: 1 }}
+        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+        keyboardVerticalOffset={Platform.OS === 'ios' ? 64 : 0}
+      >
+        <View style={appStyles.header}>
+          <RNBounceable onPress={handleBack} style={{ padding: 4 }}>
+            <FastImage source={icons?.Back} style={appStyles.back} />
+          </RNBounceable>
+          <Text style={appStyles.headerText}>{((route?.params as RouteParams)?.data?.name).toUpperCase()}</Text>
+          <View style={appStyles.back1} />
+        </View>
+        <GiftedChat
+          renderBubble={renderBubble}
+          ref={giftedChatRef}
+          messages={messages}
+          onSend={onSend}
+          user={{
+            _id: 1,
+          }}
+        />
+      </KeyboardAvoidingView>
+    </>
   );
 };
 

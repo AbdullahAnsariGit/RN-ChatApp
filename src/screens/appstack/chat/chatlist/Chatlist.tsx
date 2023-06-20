@@ -14,10 +14,13 @@ import RNBounceable from '@freakycoder/react-native-bounceable'
 import { useDispatch } from 'react-redux'
 import { todoDelete } from '@services/redux/actions/deleteTodo'
 import { deteleToken } from '@services/redux/actions/deleteToken'
+import LoadingWrapper from '@shared-components/loading-wrapper/loadingWrapper'
 
 let id = '';
 const Chatlist: React.FC = () => {
     const dispatch = useDispatch()
+    const [isShow, setIsShow] = React.useState<boolean>(false);
+
     const [users, setUsers] = React.useState([]);
     React.useEffect(() => {
         getUsers()
@@ -27,11 +30,11 @@ const Chatlist: React.FC = () => {
         return <ChatlistWrapper imgs={item?.imgs} name={item?.name} onPress={() => NavigationService.push(SCREENS.CHATSCREEN, { data: item, id: id })} />
     }
     const logout = () => {
+        setIsShow(true)
         dispatch(deteleToken())
+        setIsShow(false)
     }
-    const handleChat = () => {
-        NavigationService.push(SCREENS.CHATSCREEN)
-    }
+  
     const getUsers = async (): Promise<void> => {
         try {
             const storedUserId = await AsyncStorage.getItem('USERID');
@@ -75,8 +78,8 @@ const Chatlist: React.FC = () => {
     // };
 
     return (
-
-        <View >
+        <>
+            <LoadingWrapper show={isShow} name='Spinning Circles Loading Animation' source='https://assets5.lottiefiles.com/private_files/lf30_tcux3hw6.json' author='Abdullah' path={require('./../chatscreen/animation.json')} />
             <View style={styles.container}>
                 <View style={styles.placeholder} />
                 <Text style={styles.title}>Chat</Text>
@@ -97,7 +100,8 @@ const Chatlist: React.FC = () => {
                     }}
                 />
             </View>
-        </View>
+
+        </>
 
     )
 }
