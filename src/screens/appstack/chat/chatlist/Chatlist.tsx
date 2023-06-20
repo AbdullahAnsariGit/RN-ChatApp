@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, FlatList, Text } from 'react-native'
+import { View, FlatList, Text, StyleSheet } from 'react-native'
 import ChatlistWrapper from '@shared-components/chatlist-wrapper/ChatlistWrapper'
 import { themes } from 'assets/theme'
 import { responsiveScreenWidth } from 'react-native-responsive-dimensions'
@@ -8,9 +8,16 @@ import { SCREENS } from '@shared-constants'
 import * as NavigationService from "react-navigation-helpers";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import firestore from '@react-native-firebase/firestore';
+import FastImage from 'react-native-fast-image'
+import { imgs } from 'assets/imgs'
+import RNBounceable from '@freakycoder/react-native-bounceable'
+import { useDispatch } from 'react-redux'
+import { todoDelete } from '@services/redux/actions/deleteTodo'
+import { deteleToken } from '@services/redux/actions/deleteToken'
 
 let id = '';
 const Chatlist: React.FC = () => {
+    const dispatch = useDispatch()
     const [users, setUsers] = React.useState([]);
     React.useEffect(() => {
         getUsers()
@@ -18,6 +25,9 @@ const Chatlist: React.FC = () => {
 
     const renderItem = ({ item }: any) => {
         return <ChatlistWrapper imgs={item?.imgs} name={item?.name} onPress={() => NavigationService.push(SCREENS.CHATSCREEN, { data: item, id: id })} />
+    }
+    const logout = () => {
+        dispatch(deteleToken())
     }
     const handleChat = () => {
         NavigationService.push(SCREENS.CHATSCREEN)
@@ -67,8 +77,12 @@ const Chatlist: React.FC = () => {
     return (
 
         <View >
-            <View style={appStyles.header}>
-                <Text style={appStyles.headerText1}>Chat</Text>
+            <View style={styles.container}>
+                <View style={styles.placeholder} />
+                <Text style={styles.title}>Chat</Text>
+                <RNBounceable style={styles.placeholder} onPress={() => logout()}>
+                    <Text style={styles?.title2}>Logout</Text>
+                </RNBounceable>
             </View>
             <View style={appStyles.chatlistContainer}>
                 <FlatList
@@ -90,3 +104,40 @@ const Chatlist: React.FC = () => {
 
 export default Chatlist
 
+const styles = StyleSheet.create({
+    container: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        backgroundColor: '#fff',
+        // paddingHorizontal: 20,
+        paddingVertical: 10,
+    },
+    logoContainer: {
+        width: 50,
+        height: 50,
+    },
+    logo: {
+        flex: 1,
+        width: undefined,
+        height: undefined,
+    },
+    title: {
+        fontSize: 18,
+        fontFamily: themes?.font?.semiBold,
+        color: themes?.colors?.black,
+    },
+    placeholder: {
+        width: '20%',
+        flexDirection: 'row-reverse',
+        paddingLeft: 20
+        // backgroundColor:'red'
+
+    },
+    title2: {
+        fontSize: 14,
+        fontFamily: themes?.font?.semiBold,
+        color: themes?.colors?.black,
+    },
+
+});

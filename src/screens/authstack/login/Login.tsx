@@ -10,9 +10,12 @@ import firestore from '@react-native-firebase/firestore';
 import Animated, { useSharedValue, useAnimatedStyle, withSpring, withTiming } from 'react-native-reanimated'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Restart from 'react-native-restart';
+import { useDispatch } from 'react-redux'
+import { token } from '@services/redux/actions/token'
 
 
 const Login: React.FC = () => {
+    const dispatch = useDispatch();
     const initialIconVal = useSharedValue(0)
     const animatedStyle = useAnimatedStyle(() => {
         return {
@@ -24,13 +27,11 @@ const Login: React.FC = () => {
         }
     })
 
-    const handleRefresh = () => {
-        Restart.Restart();
-      };
+ 
 
     React.useEffect(() => {
         initialIconVal.value = withTiming(1, { duration: 2000 }), withSpring(1);
-      
+
     }, []);
 
     const handleSubmit = (values: any) => {
@@ -40,13 +41,12 @@ const Login: React.FC = () => {
             .where("email", '==', values.email)
             .get()
             .then(res => {
-                console.log("🚀 ~ file: Login.tsx:40 ~ handleSubmit ~ res:", res?._docs[0]?._data)
-                console.log("res", res?._docs[0]?._data.password)
                 if (res?._docs[0]?._data.password == values.password) {
                     AsyncStorage.setItem(
                         'USERID',
                         JSON.stringify(res?._docs[0]?._data),
                     );
+                    dispatch(token(res?._docs[0]?._data?.userId))
                 }
             }).catch((err) => {
                 console.log('user not found', err)

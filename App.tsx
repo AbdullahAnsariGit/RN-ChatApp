@@ -23,12 +23,14 @@ const App = () => {
   //  }
   // })
   // console.log("🚀 ~ file: App.tsx:23 ~ reduxState ~ reduxState:", reduxState)
-
+  const token = useSelector((state: any) => state.token);
+  console.log("Token:", token);
+  
   const data = useSelector((state: any) => {
-    const initialData = state.todos
+    const initialData = state
     return initialData
   })
-  console.log("🚀 ~ file: App.tsx:37 ~ data ~ data:", data)
+  console.log("🚀 ~ datafi  :", data)
 
   React.useEffect(() => {
     StatusBar.setBarStyle(isDarkMode ? "light-content" : "dark-content");

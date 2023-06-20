@@ -23,7 +23,7 @@ export default StyleSheet.create({
     },
     headerText1:{
         textAlign: 'center',
-        width:'100%',
+        // width:'100%',
         fontFamily: themes?.font?.bold,
         color: themes?.colors?.black,
         fontSize: themes?.fontSize?.medium

@@ -18,21 +18,25 @@ import SplashScreen from "@screens/authstack/splash/Splash";
 import Chatlist from "@screens/appstack/chat/chatlist/Chatlist";
 import Chatscreen from "@screens/appstack/chat/chatscreen/Chatscreen";
 import BooksListApp from "@screens/appstack/todo/Todo";
+import { useSelector } from "react-redux";
 
 // ? If you want to use stack or tab or both
 const Stack = createStackNavigator();
 
 const Navigation = () => {
-  const [token, setToken] = useState<string | null>(null);
+
+  // const [token, setToken] = useState<string | null>(null);
   const scheme = useColorScheme();
   const isDarkMode = scheme === "dark";
+  const token = useSelector((state: any) => state.token);
+  console.log("🚀 ~ file: index.tsx:32 ~ Navigation ~ token:", token?.token)
 
   useEffect(() => {
     AsyncStorage.getItem('USERID')
       .then(result => {
         const userID = JSON.parse(result).userId;
         console.log('userID', userID);
-        setToken(userID);
+        // setToken(userID);
       })
       .catch(error => {
         console.log('Error retrieving user ID from AsyncStorage:', error);
@@ -53,7 +57,7 @@ const Navigation = () => {
       theme={LightTheme}
     > 
       <Stack.Navigator screenOptions={{ headerShown: false }}>
-        {!token == null ? (
+        {token?.token == null ? (
           <>
             <Stack.Screen name={SCREENS.SPLASHSCREEN} component={SplashScreen} />
             <Stack.Screen name={SCREENS.LOGIN} component={Login} />
@@ -62,7 +66,7 @@ const Navigation = () => {
           </>
         ) : (
           <>
-            <Stack.Screen name={SCREENS.TODO} component={BooksListApp} />
+            {/* <Stack.Screen name={SCREENS.TODO} component={BooksListApp} /> */}
             <Stack.Screen name={SCREENS.CHATLIST} component={Chatlist} />
             <Stack.Screen name={SCREENS.CHATSCREEN} component={Chatscreen} />
           </>
