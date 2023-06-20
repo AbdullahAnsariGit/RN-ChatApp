@@ -9,7 +9,6 @@ import * as NavigationService from 'react-navigation-helpers';
 import { useRoute } from '@react-navigation/native';
 import firestore, { FirebaseFirestoreTypes } from '@react-native-firebase/firestore';
 import { themes } from 'assets/theme';
-import LoadingWrapper from '@shared-components/loading-wrapper/loadingWrapper';
 
 interface RouteParams {
   id: string;
@@ -21,16 +20,17 @@ interface RouteParams {
 
 const Chatscreen: React.FC = () => {
   const route = useRoute();
+  console.log("🚀 ~ file: Chatscreen.tsx:23 ~ route:", route)
   const giftedChatRef = useRef<any>(null);
 
   const [messages, setMessages] = React.useState<IMessage[]>([]);
+  console.log("🚀 ~ file: Chatscreen.tsx:27 ~ messages:", messages)
 
   useEffect(() => {
     const subscriber = firestore()
       .collection('chats')
       .doc((route?.params as RouteParams)?.id + (route.params as RouteParams)?.data?.userId)
       .collection('messages')
-      .orderBy('createdAt', 'asc')
       .onSnapshot((querySnapshot: FirebaseFirestoreTypes.QuerySnapshot) => {
         const allMessages = querySnapshot.docs.map((item: FirebaseFirestoreTypes.QueryDocumentSnapshot) => {
           const message = item.data();
@@ -43,11 +43,16 @@ const Chatscreen: React.FC = () => {
             },
           };
         });
-        setMessages(allMessages);
+
+        // Reverse the order of the messages array
+        const reversedMessages = allMessages.reverse();
+
+        setMessages(reversedMessages);
       });
 
     return () => subscriber();
   }, []);
+
 
   const onSend = React.useCallback((newMessages: IMessage[] = []) => {
     setMessages((prevMessages) => GiftedChat.append(prevMessages, newMessages));
@@ -61,22 +66,29 @@ const Chatscreen: React.FC = () => {
     });
 
     sendToFirestore(firestoreMessages);
+
+    // Scroll to the bottom of the chat view
+    // giftedChatRef.current?.scrollToBottom();
   }, []);
 
   const sendToFirestore = (newMessages: any[]) => {
-    newMessages.forEach((message) => {
-      firestore()
-        .collection('chats')
-        .doc('' + (route?.params as RouteParams)?.id + (route.params as RouteParams)?.data?.userId)
-        .collection('messages')
-        .add(message);
+    try {
+      newMessages.forEach((message) => {
+        firestore()
+          .collection('chats')
+          .doc('' + (route?.params as RouteParams)?.id + (route.params as RouteParams)?.data?.userId)
+          .collection('messages')
+          .add(message);
 
-      firestore()
-        .collection('chats')
-        .doc('' + (route?.params as RouteParams)?.data?.userId + (route.params as RouteParams)?.id)
-        .collection('messages')
-        .add(message);
-    });
+        firestore()
+          .collection('chats')
+          .doc('' + (route?.params as RouteParams)?.data?.userId + (route.params as RouteParams)?.id)
+          .collection('messages')
+          .add(message);
+      });
+    } catch (err) {
+      console.log("🚀 ~ file: Chatscreen.tsx:83 ~ sendToFirestore ~ err:", err)
+    }
   };
   const renderBubble = (props: any) => {
     return (
@@ -128,6 +140,7 @@ const Chatscreen: React.FC = () => {
             _id: 1,
           }}
         />
+
       </KeyboardAvoidingView>
     </>
   );
